@@ -70,7 +70,7 @@ diki_hurrisyail_124140088_pertemuan1/
 | Tampilan                  | Gambar                                       |
 | ------------------------- | -------------------------------------------- |
 | Form input utama          | ![Form Input](ss/form.png)           |
-| Validasi error muncul     | ![Validasi Error](ss/validasi2.png)      |
+| Validasi error muncul     | ![Validasi Error](ss/validasi.png)      |
 | Hasil perhitungan & tabel | ![Hasil Transaksi](ss/hasil.png) |
 
 ## Penjelasan Teknis Singkat
