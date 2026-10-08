@@ -36,7 +36,7 @@ diki_hurrisyail_124140088_pertemuan1/
 │
 └── screenshot/         # Dokumentasi screenshot
     ├── form.png
-    ├── validasi2.png
+    ├── validasi.png
     └── hasil.png
 ```
 
