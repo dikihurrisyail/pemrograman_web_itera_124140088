@@ -49,28 +49,28 @@ Aplikasi juga menyediakan tombol naik/turun pada input harga untuk memudahkan ka
 
 ## Daftar Fitur
 
-- [x] Validasi nama barang minimal 3 karakter.
-- [x] Validasi harga minimal Rp500.
-- [x] Validasi qty berupa angka bulat minimal 1.
-- [x] Pesan error berwarna merah di bawah input yang salah.
-- [x] Tambah barang ke keranjang.
-- [x] Perhitungan subtotal otomatis.
-- [x] Perhitungan total belanja otomatis.
-- [x] Tombol naik/turun harga dengan perubahan Rp1.000.
-- [x] Diskon otomatis 10% jika total belanja minimal Rp50.000.
-- [x] Kode promo `HEMATBGT`.
-- [x] Menampilkan nominal diskon.
-- [x] Menampilkan total akhir.
-- [x] Input uang bayar.
-- [x] Perhitungan kembalian otomatis.
-- [x] Keterangan jika uang belum mencukupi.
-- [x] Hapus item dari keranjang.
-- [x] Penyimpanan keranjang menggunakan localStorage.
-- [x] Data keranjang tetap tersedia setelah halaman di-refresh.
-- [x] Tombol Transaksi Baru untuk mengosongkan keranjang.
-- [x] Membersihkan data localStorage saat transaksi baru.
-- [x] Format nominal menggunakan Rupiah.
-- [x] Tampilan responsive.
+- [✓] Validasi nama barang minimal 3 karakter.
+- [✓] Validasi harga minimal Rp500.
+- [✓] Validasi qty berupa angka bulat minimal 1.
+- [✓] Pesan error berwarna merah di bawah input yang salah.
+- [✓] Tambah barang ke keranjang.
+- [✓] Perhitungan subtotal otomatis.
+- [✓] Perhitungan total belanja otomatis.
+- [✓] Tombol naik/turun harga dengan perubahan Rp1.000.
+- [✓] Diskon otomatis 10% jika total belanja minimal Rp50.000.
+- [✓] Kode promo `HEMATBGT`.
+- [✓] Menampilkan nominal diskon.
+- [✓] Menampilkan total akhir.
+- [✓] Input uang bayar.
+- [✓] Perhitungan kembalian otomatis.
+- [✓] Keterangan jika uang belum mencukupi.
+- [✓] Hapus item dari keranjang.
+- [✓] Penyimpanan keranjang menggunakan localStorage.
+- [✓] Data keranjang tetap tersedia setelah halaman di-refresh.
+- [✓] Tombol Transaksi Baru untuk mengosongkan keranjang.
+- [✓] Membersihkan data localStorage saat transaksi baru.
+- [✓] Format nominal menggunakan Rupiah.
+- [✓] Tampilan responsive.
 
 ---
 
