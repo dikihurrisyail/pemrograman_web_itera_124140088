@@ -45,8 +45,6 @@ Aplikasi juga menyediakan tombol naik/turun pada input harga untuk memudahkan ka
 8. Masukkan kode promo `HEMATBGT` jika ingin menggunakan promo.
 9. Masukkan uang bayar untuk melihat kembalian.
 
----
-
 ## Daftar Fitur
 
 - [✓] Validasi nama barang minimal 3 karakter.
@@ -72,8 +70,6 @@ Aplikasi juga menyediakan tombol naik/turun pada input harga untuk memudahkan ka
 - [✓] Format nominal menggunakan Rupiah.
 - [✓] Tampilan responsive.
 
----
-
 ## Screenshot
 
 Tambahkan minimal 3 screenshot aplikasi:
@@ -83,7 +79,7 @@ Tambahkan minimal 3 screenshot aplikasi:
 Screenshot menampilkan form input nama barang, harga satuan, qty, dan tombol tambah barang.
 
 Form:
-ss/form.png
+![Image Alt](D:\Kuliah\Tugas\PAW\praktikum\dikihurrisyail_124140088_pertemuan1\ss\form.png)
 
 ### 2. Tampilan Validasi Error
 
