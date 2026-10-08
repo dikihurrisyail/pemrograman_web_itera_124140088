@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini POS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="container">
+
+        <!-- Header -->
+        <header class="header">
+            <div>
+                <p class="eyebrow">MINI POS</p>
+                <h1>Kasir & Keranjang Belanja</h1>
+                <p class="subtitle">
+                    Aplikasi kasir sederhana tugas pertemuan 1.
+                </p>
+            </div>
+
+            <button id="resetBtn" class="btn btn-danger" type="button">
+                Transaksi Baru
+            </button>
+        </header>
+
+
+        <!-- Form Input Barang -->
+        <section class="card">
+            <h2>Input Barang</h2>
+
+            <form id="productForm" novalidate>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="productName">Nama Barang</label>
+
+                        <input
+                            id="productName"
+                            type="text"
+                            placeholder="Contoh: Buku Tulis"
+                        >
+
+                        <small id="nameError" class="error"></small>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="productPrice">Harga Satuan</label>
+
+                        <input
+                            id="productPrice"
+                            type="number"
+                            min="500"
+                            step="1000"
+                            placeholder="Contoh: 5000"
+                        >
+
+                        <small id="priceError" class="error"></small>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="productQty">Jumlah / Qty</label>
+
+                        <input
+                            id="productQty"
+                            type="number"
+                            min="1"
+                            step="1"
+                            placeholder="Contoh: 2"
+                        >
+
+                        <small id="qtyError" class="error"></small>
+                    </div>
+
+
+                    <div class="form-group form-action">
+                        <button
+                            class="btn btn-primary"
+                            type="submit"
+                        >
+                            + Tambah ke Keranjang
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+        </section>
+
+
+        <!-- Keranjang -->
+        <section class="card">
+
+            <div class="section-title">
+                <div>
+                    <h2>Keranjang Belanja</h2>
+                    <p id="itemCount">0 item</p>
+                </div>
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Barang</th>
+                            <th>Harga Satuan</th>
+                            <th>Qty</th>
+                            <th>Subtotal</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+
+                    <tbody id="cartBody">
+
+                        <tr>
+                            <td colspan="6" class="empty">
+                                Keranjang masih kosong.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- Ringkasan dan Pembayaran -->
+        <section class="summary-grid">
+
+
+            <!-- Pembayaran -->
+            <div class="card payment-card">
+
+                <h2>Pembayaran</h2>
+
+
+                <div class="summary-row">
+                    <span>Total Belanja</span>
+                    <strong id="totalDisplay">Rp 0</strong>
+                </div>
+
+
+                <div class="summary-row">
+                    <span>Diskon</span>
+                    <strong id="discountDisplay">Rp 0</strong>
+                </div>
+
+
+                <div class="summary-row total-row">
+                    <span>Total Akhir</span>
+                    <strong id="finalDisplay">Rp 0</strong>
+                </div>
+
+
+                <!-- Kode Promo -->
+                <div class="form-group payment-input">
+
+                    <label for="promoInput">
+                        Kode Promo
+                    </label>
+
+                    <div class="promo-row">
+
+                        <input
+                            id="promoInput"
+                            type="text"
+                            placeholder="Masukkan Kode Promo"
+                        >
+
+                        <button
+                            id="promoBtn"
+                            class="btn btn-primary promo-btn"
+                            type="button"
+                        >
+                            Gunakan
+                        </button>
+
+                    </div>
+
+                    <small
+                        id="promoMessage"
+                        class="promo-message"
+                    ></small>
+
+                </div>
+
+
+                <!-- Uang Bayar -->
+                <div class="form-group payment-input">
+
+                    <label for="paymentInput">
+                        Uang Bayar
+                    </label>
+
+                    <input
+                        id="paymentInput"
+                        type="number"
+                        min="0"
+                        placeholder="Masukkan uang pembayaran"
+                    >
+
+                </div>
+
+
+                <!-- Pesan Pembayaran -->
+                <div
+                    id="paymentMessage"
+                    class="payment-message neutral"
+                >
+                    Masukkan uang bayar untuk melihat kembalian.
+                </div>
+
+            </div>
+
+
+            <!-- Informasi Diskon -->
+            <div class="card info-card">
+
+                <h2>Ketentuan Diskon</h2>
+
+                <div class="discount-box">
+
+                    <span class="discount-icon">
+                        10%
+                    </span>
+
+                    <div>
+
+                        <strong>Diskon 10%</strong>
+
+                        <p>
+                            Diskon otomatis jika total belanja
+                            minimal Rp50.000 atau gunakan kode
+                            promo HEMATBGT.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+            <p>
+                Mini POS © 2026 — Praktikum Pemrograman Web ITERA
+            </p>
+        </footer>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
