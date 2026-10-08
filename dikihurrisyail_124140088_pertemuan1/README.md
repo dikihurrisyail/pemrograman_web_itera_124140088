@@ -31,12 +31,13 @@ diki_hurrisyail_124140088_pertemuan1/
 ├── README.md           # Dokumentasi proyek
 │
 ├── modul/              # Latihan praktikum
-│   └── file latihan
+│   ├── index.html
+│   └── latihan.js.html
 │
 └── screenshot/         # Dokumentasi screenshot
     ├── form.png
-    ├── error.png
-    └── transaksi.png
+    ├── validasi2.png
+    └── hasil.png
 ```
 
 ## Daftar Fitur
@@ -65,8 +66,6 @@ diki_hurrisyail_124140088_pertemuan1/
 * [x] Tampilan responsif
 
 ## Tangkapan Layar
-
-> Ganti dengan screenshot milik sendiri (minimal 3).
 
 | Tampilan                  | Gambar                                       |
 | ------------------------- | -------------------------------------------- |
