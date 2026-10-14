@@ -8,10 +8,38 @@ const STORAGE_KEYS = {
   notes: "itera_notes",
 };
 
-const WEATHER_URL =
-  "https://api.open-meteo.com/v1/forecast?latitude=-5.36&longitude=105.31&current_weather=true&timezone=Asia%2FJakarta";
+const QUOTE_URL = "https://dummyjson.com/quotes/random";
 
 const DAY_ORDER = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
+// Urutan seminggu penuh untuk hitung jarak hari (jadwal hanya Senin–Sabtu,
+// tapi hari ini bisa Minggu, jadi butuh Minggu agar jaraknya benar).
+const WEEK_FULL = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+const JS_DAY_TO_ID = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
+const getTodayName = () => JS_DAY_TO_ID[new Date().getDay()];
+
+const timeToMinutes = (t = "") => {
+  const m = String(t).match(/(\d{1,2}):(\d{2})/);
+  if (!m) return 0;
+  return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
+};
+
+// Jarak hari dari hari ini ke hari jadwal (0 = hari ini, 1 = besok, dst.)
+// Jadwal hari ini yang jamnya sudah lewat dianggap minggu depan (7)
+// agar tidak terpilih sebagai "terdekat".
+const daysUntil = (day, time = "") => {
+  const todayIdx = WEEK_FULL.indexOf(getTodayName());
+  const schedIdx = WEEK_FULL.indexOf(day);
+  if (schedIdx < 0) return 99;
+  let diff = (schedIdx - todayIdx + 7) % 7;
+  if (diff === 0) {
+    const now = new Date();
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    if (timeToMinutes(time) <= nowMin) diff = 7;
+  }
+  return diff;
+};
 
 // ---------- 2. Arrow functions (helpers) ----------
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -52,30 +80,6 @@ const toast = (msg, type = "") => {
   toastTimer = setTimeout(() => el.classList.add("hidden"), 2600);
 };
 
-const weatherCodeToID = (code) => {
-  const map = {
-    0: ["Cerah", "☀️"], 1: ["Cerah Berawan", "🌤️"], 2: ["Berawan", "⛅"],
-    3: ["Mendung", "☁️"], 45: ["Berkabut", "🌫️"], 48: ["Berkabut", "🌫️"],
-    51: ["Gerimis Ringan", "🌦️"], 53: ["Gerimis", "🌦️"], 55: ["Gerimis", "🌦️"],
-    56: ["Gerimis Dingin", "🌦️"], 57: ["Gerimis Dingin", "🌦️"],
-    61: ["Hujan Ringan", "🌧️"], 63: ["Hujan", "🌧️"], 65: ["Hujan Lebat", "⛈️"],
-    66: ["Hujan Ringan", "🌧️"], 67: ["Hujan", "🌧️"],
-    71: ["Hujan Ringan", "🌧️"], 73: ["Hujan", "🌧️"], 75: ["Hujan Lebat", "🌧️"],
-    80: ["Hujan Lokal", "🌧️"], 81: ["Hujan Lokal", "🌧️"], 82: ["Hujan Deras", "⛈️"],
-    95: ["Badai Petir", "⛈️"], 96: ["Badai Petir", "⛈️"], 99: ["Badai Petir", "⛈️"],
-  };
-  return map[code] || ["Berawan", "⛅"];
-};
-
-// Format waktu API (Asia/Jakarta, "YYYY-MM-DDTHH:mm") jadi "14/10/2026, 09.30 WIB"
-// tanpa lewat `new Date()` agar tidak geser ke UTC.
-const fmtWIB = (timeStr = "") => {
-  const m = String(timeStr).match(/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
-  if (!m) return timeStr;
-  const [, y, mo, d, h, mi] = m;
-  return `${d}/${mo}/${y}, ${h}.${mi} WIB`;
-};
-
 // ---------- 5. Classes: TaskItem ----------
 class TaskItem {
   constructor({ id = uid(), title = "", course = "", deadline = "", done = false, createdAt = new Date().toISOString() } = {}) {
@@ -112,7 +116,7 @@ class DashboardApp {
     this.renderToday();
     this.bindEvents();
     this.renderAll();
-    this.loadWeather(); // async/await + fetch
+    this.loadQuote(); // async/await + fetch (DummyJSON)
   }
 
   renderToday() {
@@ -133,7 +137,7 @@ class DashboardApp {
     document.getElementById("noteForm").addEventListener("submit", (e) => this.handleNoteSubmit(e));
     document.getElementById("noteCancelBtn").addEventListener("click", () => this.cancelNoteEdit());
 
-    document.getElementById("weatherRefresh").addEventListener("click", () => this.loadWeather());
+    document.getElementById("quoteRefresh").addEventListener("click", () => this.loadQuote());
 
     // Event delegation (arrow functions)
     document.getElementById("taskList").addEventListener("click", (e) => {
@@ -358,11 +362,20 @@ class DashboardApp {
     document.getElementById("scheduleCount").textContent = this.schedules.length;
     document.getElementById("noteCount").textContent = this.notes.length;
 
-    const sorted = [...this.schedules].sort(
-      (a, b) => DAY_ORDER.indexOf(a.day) - DAY_ORDER.indexOf(b.day) || a.time.localeCompare(b.time)
-    );
-    document.getElementById("statSchedule").textContent =
-      sorted.length ? `${sorted[0].course} • ${sorted[0].day} ${sorted[0].time}` : "-";
+    // Jadwal terdekat relatif ke hari ini (reallife), bukan selalu Senin.
+    const el = document.getElementById("statSchedule");
+    if (!this.schedules.length) {
+      el.textContent = "-";
+      return;
+    }
+    const ranked = [...this.schedules]
+      .map((s) => ({ s, diff: daysUntil(s.day, s.time) }))
+      .sort((a, b) => a.diff - b.diff || a.s.time.localeCompare(b.s.time));
+    const { s: nearest, diff } = ranked[0];
+    if (diff === 0) el.textContent = `${nearest.course} • Hari ini ${nearest.time}`;
+    else if (diff === 1) el.textContent = `${nearest.course} • Besok (${nearest.day}) ${nearest.time}`;
+    else if (diff === 7) el.textContent = `${nearest.course} • ${nearest.day} ${nearest.time} (minggu depan)`;
+    else el.textContent = `${nearest.course} • ${nearest.day} ${nearest.time} (${diff} hari lagi)`;
   }
 
   renderTasks() {
@@ -402,21 +415,27 @@ class DashboardApp {
       box.innerHTML = `<div class="empty">Belum ada jadwal.</div>`;
       return;
     }
+    // Urutkan dari yang terdekat dengan hari ini (reallife),
+    // bukan selalu dari Senin.
     const sorted = [...this.schedules].sort(
-      (a, b) => DAY_ORDER.indexOf(a.day) - DAY_ORDER.indexOf(b.day) || a.time.localeCompare(b.time)
+      (a, b) => daysUntil(a.day, a.time) - daysUntil(b.day, b.time) || a.time.localeCompare(b.time)
     );
     box.innerHTML = sorted
-      .map(({ id, course, day, time, room }) => `
+      .map(({ id, course, day, time, room }) => {
+        const diff = daysUntil(day, time);
+        const tag = diff === 0 ? " • Hari ini" : diff === 1 ? " • Besok" : "";
+        return `
         <div class="item">
           <div>
             <p class="item-title">${escapeHtml(course)}</p>
-            <p class="item-meta">${escapeHtml(day)} • ${escapeHtml(time)} • 📍 ${escapeHtml(room || "-")}</p>
+            <p class="item-meta">${escapeHtml(day)} • ${escapeHtml(time)} • 📍 ${escapeHtml(room || "-")}${tag}</p>
           </div>
           <div class="item-actions">
             <button class="btn btn-edit" data-action="edit" data-id="${id}" type="button">Edit</button>
             <button class="btn btn-danger" data-action="delete" data-id="${id}" type="button">Hapus</button>
           </div>
-        </div>`).join("");
+        </div>`;
+      }).join("");
   }
 
   renderNotes() {
@@ -438,29 +457,47 @@ class DashboardApp {
         </div>`).join("");
   }
 
-  // ---------- 4. Async/await + Fetch API ----------
-  async loadWeather() {
-    const tempEl = document.getElementById("weatherTemp");
-    const descEl = document.getElementById("weatherDesc");
-    const metaEl = document.getElementById("weatherMeta");
-    const iconEl = document.getElementById("weatherIcon");
+  // ---------- 4. Async/await + Fetch API (DummyJSON Quotes + terjemahan ID) ----------
+  async loadQuote() {
+    const textEl = document.getElementById("quoteText");
+    const authorEl = document.getElementById("quoteAuthor");
+    const metaEl = document.getElementById("quoteMeta");
     try {
-      descEl.textContent = "Memuat cuaca ITERA...";
-      const res = await fetch(WEATHER_URL);
+      textEl.textContent = "Memuat kutipan...";
+      authorEl.textContent = "-";
+      const res = await fetch(QUOTE_URL);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
-      const { temperature, weathercode, windspeed, time } = data.current_weather; // destructuring
-      const [label, icon] = weatherCodeToID(weathercode);
-      tempEl.textContent = `${temperature}°C`;
-      descEl.textContent = `${label} — ITERA, Lampung Selatan`;
-      iconEl.textContent = icon;
-      metaEl.textContent = `💨 ${windspeed} km/j • ${fmtWIB(time)}`;
+      const { quote, author, id } = data; // destructuring
+
+      // Coba terjemahkan ke Bahasa Indonesia (gratis, tanpa key).
+      // Kalau gagal (limit/offline), tampilkan versi asli Inggris.
+      try {
+        textEl.textContent = "Menerjemahkan ke Bahasa Indonesia...";
+        const tr = await fetch(
+          `https://api.mymemory.translated.net/get?q=${encodeURIComponent(quote)}&langpair=en|id`
+        );
+        if (!tr.ok) throw new Error(`Translate HTTP ${tr.status}`);
+        const trData = await tr.json();
+        const translated = trData?.responseData?.translatedText;
+        if (!translated || /QUERY LENGTH LIMIT|INVALID/i.test(translated)) {
+          throw new Error("Terjemahan tidak tersedia");
+        }
+        textEl.textContent = `"${translated}"`;
+        authorEl.textContent = `- ${author}`;
+        metaEl.textContent = `quotes #${id} • diterjemahkan ke ID`;
+      } catch (trErr) {
+        console.warn("Terjemahan gagal, pakai teks asli:", trErr);
+        textEl.textContent = `"${quote}"`;
+        authorEl.textContent = `- ${author} (teks asli Inggris)`;
+        metaEl.textContent = `quotes #${id} • dummyjson`;
+      }
     } catch (err) {
-      console.error("Cuaca gagal:", err);
-      tempEl.textContent = "--°C";
-      descEl.textContent = "Cuaca offline — data lokal tetap bisa dipakai.";
-      metaEl.textContent = "Periksa internet lalu klik Refresh";
-      toast("Gagal memuat cuaca. Mode offline.", "error");
+      console.error("Kutipan gagal:", err);
+      textEl.textContent = '"Belajar adalah investasi terbaik untuk masa depan."';
+      authorEl.textContent = "- Motivasi Belajar (offline)";
+      metaEl.textContent = "Periksa internet lalu klik Muat lain";
+      toast("Gagal memuat kutipan. Mode offline.", "error");
     }
   }
 }
