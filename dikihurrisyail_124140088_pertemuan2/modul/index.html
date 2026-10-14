@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Next Gen</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>JavaScript Next Gen Praktikum</h1>
+            <p>Belajar fitur modern JavaScript (ES6+)</p>
+        </header>
+
+        <main>
+            <div id="output">
+                <!-- Output demo akan ditampilkan di sini -->
+                <p class="hint">Klik "Run Demo" untuk menjalankan semua demo.</p>
+            </div>
+
+            <div class="btn-row">
+                <button id="runBtn" type="button">Run Demo</button>
+                <button id="clearBtn" type="button" class="secondary">Clear Output</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script klasik + defer: urutan terjaga, jalan via file:// maupun http:// -->
+    <script src="js/modules/data.js" defer></script>
+    <script src="js/modules/utils.js" defer></script>
+    <script src="js/app.js" defer></script>
+    <script src="js/main.js" defer></script>
+</body>
+</html>

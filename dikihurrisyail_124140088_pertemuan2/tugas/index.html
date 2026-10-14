@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ITERA Student Dashboard — Diki Hurrisyail 124140088</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div>
+        <p class="eyebrow">ITERA • STUDENT DASHBOARD</p>
+        <h1>Dashboard Akademik</h1>
+        <p class="subtitle" id="todayDate">Memuat tanggal...</p>
+      </div>
+      <div class="weather" id="weatherWidget">
+        <div class="weather-main">
+          <span class="weather-icon" id="weatherIcon">⛅</span>
+          <div>
+            <strong id="weatherTemp">--°C</strong>
+            <p id="weatherDesc">Memuat cuaca ITERA...</p>
+          </div>
+        </div>
+        <div class="weather-sub">
+          <span id="weatherMeta">lat -5.36, lon 105.31</span>
+          <button id="weatherRefresh" class="btn btn-small" type="button">Refresh</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="summary-grid">
+      <div class="card stat">
+        <span class="stat-label">Total Tugas</span>
+        <strong id="statTotal">0</strong>
+      </div>
+      <div class="card stat">
+        <span class="stat-label">Belum Selesai</span>
+        <strong id="statTodo" class="warn">0</strong>
+      </div>
+      <div class="card stat">
+        <span class="stat-label">Selesai</span>
+        <strong id="statDone" class="ok">0</strong>
+      </div>
+      <div class="card stat">
+        <span class="stat-label">Jadwal Terdekat</span>
+        <strong id="statSchedule" class="small-text">-</strong>
+      </div>
+    </section>
+
+    <main class="main-grid">
+      <!-- TUGAS -->
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <h2>Tugas Kuliah</h2>
+            <p class="muted">Kelola judul, mata kuliah, deadline & status.</p>
+          </div>
+          <span class="badge" id="taskCount">0</span>
+        </div>
+
+        <form id="taskForm" class="form" novalidate>
+          <input type="hidden" id="taskId">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="taskTitle">Judul Tugas</label>
+              <input id="taskTitle" type="text" placeholder="cth: Laporan Praktikum PAW 2">
+              <small class="error" id="taskTitleError"></small>
+            </div>
+            <div class="form-group">
+              <label for="taskCourse">Mata Kuliah</label>
+              <input id="taskCourse" type="text" placeholder="cth: Pemrograman Web">
+              <small class="error" id="taskCourseError"></small>
+            </div>
+            <div class="form-group">
+              <label for="taskDeadline">Tenggat (deadline)</label>
+              <input id="taskDeadline" type="date">
+              <small class="error" id="taskDeadlineError"></small>
+            </div>
+            <div class="form-group form-action">
+              <button class="btn btn-primary" type="submit" id="taskSubmitBtn">+ Tambah Tugas</button>
+              <button class="btn btn-ghost hidden" type="button" id="taskCancelBtn">Batal</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="toolbar">
+          <input id="taskSearch" type="text" placeholder="Cari tugas / matkul...">
+          <select id="taskFilter">
+            <option value="all">Semua</option>
+            <option value="todo">Belum selesai</option>
+            <option value="done">Selesai</option>
+          </select>
+        </div>
+
+        <div id="taskList" class="list"></div>
+      </section>
+
+      <!-- JADWAL -->
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <h2>Jadwal Kuliah</h2>
+            <p class="muted">Hari, jam & lokasi perkuliahan.</p>
+          </div>
+          <span class="badge" id="scheduleCount">0</span>
+        </div>
+
+        <form id="scheduleForm" class="form" novalidate>
+          <input type="hidden" id="scheduleId">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="schCourse">Mata Kuliah</label>
+              <input id="schCourse" type="text" placeholder="cth: Basis Data">
+            </div>
+            <div class="form-group">
+              <label for="schDay">Hari</label>
+              <select id="schDay">
+                <option>Senin</option>
+                <option>Selasa</option>
+                <option>Rabu</option>
+                <option>Kamis</option>
+                <option>Jumat</option>
+                <option>Sabtu</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="schTime">Waktu</label>
+              <input id="schTime" type="time">
+            </div>
+            <div class="form-group">
+              <label for="schRoom">Lokasi / Ruang</label>
+              <input id="schRoom" type="text" placeholder="cth: GKU 201">
+            </div>
+            <div class="form-group form-action">
+              <button class="btn btn-primary" type="submit" id="schSubmitBtn">+ Tambah Jadwal</button>
+              <button class="btn btn-ghost hidden" type="button" id="schCancelBtn">Batal</button>
+            </div>
+          </div>
+        </form>
+
+        <div id="scheduleList" class="list"></div>
+      </section>
+
+      <!-- CATATAN -->
+      <section class="card wide">
+        <div class="section-head">
+          <div>
+            <h2>Catatan Akademik</h2>
+            <p class="muted">Materi penting, info praktikum, pengingat.</p>
+          </div>
+          <span class="badge" id="noteCount">0</span>
+        </div>
+
+        <form id="noteForm" class="form" novalidate>
+          <input type="hidden" id="noteId">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="noteTitle">Judul Catatan</label>
+              <input id="noteTitle" type="text" placeholder="cth: Materi UTS PAW">
+            </div>
+            <div class="form-group grow">
+              <label for="noteContent">Isi Catatan</label>
+              <input id="noteContent" type="text" placeholder="cth: Pelajari async/await + fetch...">
+            </div>
+            <div class="form-group form-action">
+              <button class="btn btn-primary" type="submit" id="noteSubmitBtn">+ Tambah Catatan</button>
+              <button class="btn btn-ghost hidden" type="button" id="noteCancelBtn">Batal</button>
+            </div>
+          </div>
+        </form>
+
+        <div id="noteList" class="notes-grid"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>ITERA Student Dashboard © 2026 — Diki Hurrisyail (124140088) — Praktikum Pemrograman Web ITERA</p>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
