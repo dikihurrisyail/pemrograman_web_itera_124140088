@@ -61,8 +61,8 @@ tugas/
 
 | Tampilan | Gambar |
 |---|---|
-| Dashboard + cuaca | `ss/dashboard.png` |
-| Tugas + filter | `ss/tugas.png` |
+| Dashboard + cuaca | ![dashboard](ss/dashboard.png) |
+| Tugas + filter | ![Tugas](ss/tugas.png) |
 
 ## Kriteria Keberhasilan
 
