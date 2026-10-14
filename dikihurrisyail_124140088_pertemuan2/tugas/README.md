@@ -59,8 +59,6 @@ tugas/
 
 ## Screenshot
 
-> Simpan screenshot di `tugas/ss/` lalu update path di bawah.
-
 | Tampilan | Gambar |
 |---|---|
 | Dashboard + cuaca | `ss/dashboard.png` |
