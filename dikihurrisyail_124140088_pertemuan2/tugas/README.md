@@ -59,9 +59,7 @@ tugas/
 
 ## Screenshot
 
-| Tampilan | Gambar |
-|---|---|
-| Tampilan | ![dashboard](ss/dashboard.png) |
+![dashboard](ss/dashboard.png)
 
 ## Kriteria Keberhasilan
 
