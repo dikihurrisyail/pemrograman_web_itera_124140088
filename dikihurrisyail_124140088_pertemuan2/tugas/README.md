@@ -64,8 +64,8 @@ tugas/
 ## Kriteria Keberhasilan
 
 1. CRUD tugas/jadwal/catatan jalan tanpa reload. ✅
-2. Data awet setelah refresh (localStorage). ✅
+2. Data tetap ada setelah refresh (localStorage). ✅
 3. Ringkasan update otomatis. ✅
-4. Kutipan tampil saat online, fallback saat offline. ✅
+4. Quotes tampil saat online, fallback saat offline. ✅
 5. Semua ES6+ wajib dipakai (tabel di atas). ✅
 6. Responsif. ✅
