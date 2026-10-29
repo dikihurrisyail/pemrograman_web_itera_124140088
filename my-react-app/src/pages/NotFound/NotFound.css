@@ -1,0 +1,36 @@
+.not-found {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.not-found h1 {
+  font-size: 6rem;
+  color: #3498db;
+  margin: 0;
+}
+
+.not-found h2 {
+  margin: 0.5rem 0;
+}
+
+.not-found p {
+  color: #64748b;
+}
+
+.not-found a {
+  margin-top: 1rem;
+  padding: 0.7rem 1.2rem;
+  background-color: #3498db;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.not-found a:hover {
+  background-color: #2980b9;
+}

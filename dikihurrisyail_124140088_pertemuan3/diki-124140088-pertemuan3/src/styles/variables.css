@@ -1,0 +1,68 @@
+/* Design tokens: warna, tipografi, spacing.
+   Didesain untuk tema "perpustakaan pribadi" yang tenang,
+   tidak menggunakan gradien berlebihan atau efek glass. */
+:root {
+  /* Palet biru: latar bukan putih, kartu sedikit lebih terang. */
+  --color-bg: #d7e4f5 /* latar halaman */;
+  --color-surface: #eaf2fb /* kartu, form */;
+  --color-text: #12233b /* utama */;
+  --color-text-muted: #4c6480 /* sekunder */;
+  --color-accent: #1f5fa8 /* tombol utama */;
+  --color-border: #b9cde4 /* tipis */;
+
+  /* Error & success */
+  --color-error: #b5473c;
+  --color-success: #3d7457;
+
+  /* Status buku */
+  --color-owned: #3b7a57;
+  --color-reading: #5276a8;
+  --color-wishlist: #a06245;
+
+  /* Runtime */
+  --font-sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Georgia', serif;
+  --radius: 6px;
+  --gap: 16px;
+  --max-width: 900px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+/* Reset ringan */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+button {
+  cursor: pointer;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+ul,
+ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Aksesibilitas: fokus yang terlihat */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
