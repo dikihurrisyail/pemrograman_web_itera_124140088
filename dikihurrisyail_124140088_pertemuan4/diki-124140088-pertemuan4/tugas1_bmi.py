@@ -1,0 +1,24 @@
+print("=== Penghitung BMI ===")
+
+berat = float(input("Masukkan berat badan (kg): "))
+tinggi = float(input("Masukkan tinggi badan (cm atau meter): "))
+
+if tinggi > 3:  # 170 cm, bukan 1.70 m
+    tinggi /= 100
+
+if tinggi <= 0:
+    print("Tinggi badan tidak boleh nol atau negatif.")
+else:
+    bmi = berat / (tinggi * tinggi)
+
+    if bmi < 18.5:
+        kategori = "Berat badan kurang."
+    elif bmi < 25:
+        kategori = "Berat badan normal."
+    elif bmi < 30:
+        kategori = "Berat badan berlebih."
+    else:
+        kategori = "Obesitas."
+
+    print(f"BMI Anda: {bmi:.2f}")
+    print(f"Kategori: {kategori}")
