@@ -19,13 +19,13 @@ Program OOP sederhana untuk katalog perpustakaan. Menyimpan buku dan majalah, me
 
 ```text
 dikihurrisyail_124140088_pertemuan5/
-├── latihan_oop/            # materi latihan, jangan diubah
+├── latihan_oop/            # materi latihan
 ├── tugas_perpustakaan/
 │   ├── library_item.py     # ABC LibraryItem, Book, Magazine
 │   ├── member.py           # class Member
 │   ├── library.py          # class Library
 │   └── main.py             # demo program
-├── venv/                   # environment lokal, jangan di-commit
+├── venv/                   # environment lokal
 ├── README.md
 └── .gitignore
 ```
